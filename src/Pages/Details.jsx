@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getFoodDetails } from "../features/GetFoods"
 import { Container, Grid } from "@mantine/core"
+import { useParams } from "react-router-dom"
 
 function Details() {
+  const { id } = useParams()
   const dispatch = useDispatch()
-  const id = useSelector((state) => state.get.idMeal)
   const data = useSelector((state) => state.get.dataMeal)
   useEffect(() => {
     dispatch(getFoodDetails(id))

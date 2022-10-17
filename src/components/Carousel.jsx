@@ -18,7 +18,7 @@ function CarouselMain() {
 
     const goToDetails = (v) =>{
         dispatch(changeCategoryName(v))
-        navigate("/Foods")
+        navigate("/Foods/"+v)
     } 
 
     return (

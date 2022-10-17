@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom"
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import { MantineProvider } from "@mantine/core"
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <MantineProvider
@@ -25,9 +24,9 @@ root.render(
     }}
   >
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
     </Provider>
   </MantineProvider>
 

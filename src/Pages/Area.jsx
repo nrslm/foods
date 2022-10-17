@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { getFood } from "../features/GetFoods"
+import { AreaFoods } from "../features/GetFoods"
 import { Center, Container, Grid } from "@mantine/core"
 import { useParams } from 'react-router-dom'
 
 import Cards from '../components/Cards'
 
-function Foods() {
-    const { nameCategory } = useParams()
+function Area() {
+    const { area } = useParams()
     const dispatch = useDispatch()
-    const data = useSelector((state) => state.get.dataFoods)
-    
+    const data = useSelector((state) => state.get.dataArea)
+
     useEffect(() => {
-        dispatch(getFood(nameCategory))
-    }, [])
-    console.log(data)
-
-
+        dispatch(AreaFoods(area))
+    }, [area])
+    
     return (
-        <div className='mt-8 min-h9'>
+        <div>
             <Container size={"xl"} px={"xl"}>
                 <Center style={{ width: "100%" }}>
-                    <h1 className='f-4'>{nameCategory}</h1>
+                    <h1 className='f-4'>{area}</h1>
                 </Center>
                 <div className='mt-8'>
                     <Grid justify="center">
@@ -29,10 +27,10 @@ function Foods() {
                             data.map((item, index) => {
                                 return (
                                     <Grid.Col span={4} key={index}>
-                                        <Cards  
+                                        <Cards
                                             v={item}
                                             i={index}
-                                            icon={false} 
+                                            icon={false}
                                         />
                                     </Grid.Col>
                                 )
@@ -45,4 +43,4 @@ function Foods() {
     )
 }
 
-export default Foods
+export default Area

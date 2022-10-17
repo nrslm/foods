@@ -9,7 +9,7 @@ function Basket() {
   const [data, setData] = useState(JSON.parse(localStorage.getItem("basket")) || "[]")
   const items = useSelector((state) => state.add.data)
   const [opened, setOpened] = useState(false)
-  const [cheked, setCheked] = useState([])
+  const cheked = []
   const [name, setName] = useState("")
   const [adres, setAdres] = useState("")
   const [number, setNamber] = useState("")
@@ -18,16 +18,17 @@ function Basket() {
     setData(JSON.parse(localStorage.getItem("basket")))
   }, [items])
 
-  const Checked = (id) => {
-    setCheked(old => [...old, data.filter((item) => item.idMeal == id)])
+  const Checked = (strMeal) => {
+    cheked.push(strMeal)
   }
-
+  
   const postOrder = () =>{
+    setOpened(false)
     dispatch(postMessage({nameUser: name, adresUser: adres, numberUser: number,foods: cheked}))
   }
 
   return (
-    <div className='min-h9'>
+    <div className='min-h9 basket'>
       <Container size={"xl"} px={"xl"}>
         <div className='flex items-center content-between m-4'>
           <h1>Корзинка</h1>
@@ -57,10 +58,10 @@ function Basket() {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Order"
         padding="xl"
         size="xl"
         position="right"
+        className='modalOrder'
       >
         <Title order={1}>Оформить заказ</Title>
         <div className='mb-4' />
@@ -100,7 +101,7 @@ function Basket() {
                     size="lg"
                     className='m-2'
                     color="orange"
-                    onChange={() => Checked(items.idMeal)}
+                    onChange={() => Checked(items.strMeal)}
                   />
                   <img width={"70px"} src={items.strMealThumb} alt="" />
                 </div>

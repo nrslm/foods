@@ -26,3 +26,14 @@ body {
   height: 300px;
   transform: scaleY();
 }
+.modalOrder{
+  color: black !important;
+  backdrop-filter: blur(2px);
+}
+
+.indecator{
+  background-color: orange !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

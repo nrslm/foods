@@ -90,8 +90,14 @@
 .content-end{
     justify-content: flex-end;
 }
+.items-end{
+    align-items: flex-end;
+}
 .fd-colum{
     flex-direction: column;
+}
+.f-wrap{
+    flex-wrap: wrap;
 }
 
 /* list */

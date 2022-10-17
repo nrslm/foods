@@ -4,7 +4,8 @@ const initialState = {
   data: [],
   dataFoods: [],
   dataMeal: [],
-  categoriName: "Seafood",
+  dataArea: [],
+  categoriName: "",
   dataSearch: [],
   searchName: "",
   idMeal: 52878,
@@ -13,63 +14,76 @@ const initialState = {
 
 export const getData = createAsyncThunk('posts/getPosts',
   async (text, { getState, dispatch }) => {
-    console.log(text)
     try {
       const res = await axios.post("https://www.themealdb.com/api/json/v1/1/categories.php"
       )
-      console.log(res.data.categories)
       dispatch(getCategory(res.data.categories))
-
     } catch (e) {
       console.log(e)
     }
-
   }
 )
 
 export const getFood = createAsyncThunk('posts/getPosts',
-  async (text, { thunkAPI, dispatch }) => {
-    let value = text || "Seafood"
+  async (value, { thunkAPI, dispatch }) => {
+    dispatch(spiner(true))
+
     try {
       const res = await axios.post(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`
       )
-      console.log(res.data.meals)
+      dispatch(spiner(true))
       dispatch(getFoodsByCategory(res.data.meals))
-
     } catch (e) {
       console.log(e)
     }
-    
   }
 )
 export const getFoodDetails = createAsyncThunk('posts/getPosts',
   async (text, { thunkAPI, dispatch }) => {
+    dispatch(spiner(true))
+
     try {
       const res = await axios.post(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${text}`
       )
+      dispatch(spiner(true))
       dispatch(getMealsDetails(res.data.meals))
 
     } catch (e) {
       console.log(e)
     }
-
   }
 )
 
 
 export const searchFoods = createAsyncThunk('posts/getPosts',
   async (text, { thunkAPI, dispatch }) => {
-    console.log(text)
+    dispatch(spiner(true))
     try {
       const res = await axios.post(`https://www.themealdb.com/api/json/v1/1/search.php?s=${text}`
       )
       console.log(res.data.meals)
       dispatch(searchMeals(res.data.meals))
+      dispatch(spiner(false))
 
     } catch (e) {
       console.log(e)
     }
+  }
+)
 
+export const AreaFoods = createAsyncThunk('posts/getPosts',
+  async (area, { getState, dispatch }) => {
+    dispatch(spiner(true))
+
+    try {
+      const res = await axios.post(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
+      dispatch(areaFoods(res.data.meals))
+      console.log(res)
+      dispatch(spiner(true))
+
+    } catch (e) {
+      console.log(e)
+    }
   }
 )
 
@@ -86,27 +100,32 @@ export const getMeals = createSlice({
     getDetailsFood: (state, action) => {
       state.value += action.payload
     },
-    getMealsDetails: (state, action) =>{
+    getMealsDetails: (state, action) => {
       state.dataMeal = action.payload
     },
-    searchMeals: (state, action) =>{
+    areaFoods: (state, action) => {
+      state.dataArea = action.payload
+    },
+    searchMeals: (state, action) => {
       state.dataSearch = action.payload
     },
-    changeSearchName: (state, action) =>{
+    changeSearchName: (state, action) => {
       state.searchName = action.payload
     },
-    changeCategoryName: (state, action) =>{
-      console.log(action.payload)
+    changeCategoryName: (state, action) => {
       state.categoriName = action.payload
     },
-    changeIdMeal:(state, action) =>{
+    changeIdMeal: (state, action) => {
       console.log(action.payload)
       state.idMeal = action.payload
+    },
+    spiner: (state, action) => {
+      state.spiner = action.payload
     }
   },
 })
 
 
-export const { getCategory, getFoodsByCategory, getDetailsFood, changeCategoryName, changeIdMeal, getMealsDetails, searchMeals, changeSearchName } = getMeals.actions
+export const { getCategory, getFoodsByCategory, getDetailsFood, changeCategoryName, changeIdMeal, getMealsDetails, searchMeals, changeSearchName, areaFoods, spiner } = getMeals.actions
 
 export default getMeals.reducer

@@ -15,20 +15,20 @@ import { Container, Grid, Button, Space, Center, Spoiler } from "@mantine/core"
 function Main() {
     const data = useSelector((state) => state.get.data.slice(0, -2))
     const dispatch = useDispatch()
+    let text = ''
     useEffect(() => {
         dispatch(getData())
-        localStorage.setItem("basket", JSON.stringify([]))
     }, [])
-
 
     return (
         <div>
+            <h1>{text}</h1>
             <Carousel />
 
             <Container size={"xl"} px={"xl"}>
                 <h1 className='f-3 tc mt-8 '>Our Services</h1>
 
-                <div className='flex content-evenly mt-8 mb-8'>
+                <div className='flex content-evenly mt-8 mb-8 f-wrap'>
                     <div className='tc w-30 flex fd-colum items-center'>
                         <div className={"imgBox-services mb-4"} style={{ backgroundImage: `url("${Customer}")` }} />
                         <span>
@@ -97,7 +97,7 @@ function Main() {
                             {
                                 data.map((v, i) => {
                                     return (
-                                        <Grid.Col key={i} span={4}>
+                                        <Grid.Col key={i} md={6} lg={4}>
                                             <CardsFood v={v} i={i} />
                                         </Grid.Col>
                                     )
